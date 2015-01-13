@@ -1,0 +1,514 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\options a4paper,11pt,final,openany
+\use_default_options true
+\begin_modules
+theorems-ams
+theorems-ams-extended
+theorems-sec
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 1
+\bibtex_command default
+\index_command default
+\float_placement h
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+2.
+ Domača naloga
+\end_layout
+
+\begin_layout Author
+Anja Misja, 27101961
+\end_layout
+
+\begin_layout Date
+10.
+ april 2014
+\end_layout
+
+\begin_layout Section*
+Opis problema
+\end_layout
+
+\begin_layout Standard
+Lastnik Koloseja se je odločil, da bo posodobil svoj informacijski sistem
+ ter vse podatke o svojem poslovanju shranjeval elektronsko.
+ V ta namen bo v podatkovno bazo zapisal vse podatke o:
+\end_layout
+
+\begin_layout Itemize
+zaposlenih v podjetju (ime, priimek)
+\end_layout
+
+\begin_layout Itemize
+filmih, ki se bodo vrteli v Koloseju (naslov, zvrst, režiser)
+\end_layout
+
+\begin_layout Itemize
+dvoranah, v katerih se bodo vrteli določeni filmi (število sedežev v posamezni
+ dvorani)
+\end_layout
+
+\begin_layout Itemize
+sporedu (kateri filmi se kdaj in v kateri dvorani predvajajo)
+\end_layout
+
+\begin_layout Standard
+Lastnik bo lahko tako naredil statistiko poslovanja in sicer bo lahko:ID_filma
+ INTEGER PRIMARY KEY AUTOINCREMENT,
+\end_layout
+
+\begin_layout Itemize
+preveril, za kateri film je imel največ obiskovalcev
+\end_layout
+
+\begin_layout Itemize
+imel vpogled v skupen promet Koloseja
+\end_layout
+
+\begin_layout Itemize
+preveril, ob katerih dnevih je imel največ obiskovalcev
+\end_layout
+
+\begin_layout Section*
+Zasnova baze
+\end_layout
+
+\begin_layout Enumerate
+Tabela: filmi
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+V tabeli filmi bomo hranili podatke o filmih, ki se bodo predvajali v Koloseju
+ in sicer naslov filma, režiser in pa letnik filma.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE filmi(
+\end_layout
+
+\begin_layout Plain Layout
+
+ID_filma INTEGER PRIMARY KEY AUTOINCREMENT,
+\end_layout
+
+\begin_layout Plain Layout
+
+naslov VARCHAR(50) UNIQUE NOT NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+zvrst VARCHAR(20) NOT NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+reziser VARCHAR(30) NOT NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+letnik INTEGER NOT NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ustvarimo tabelo filmi s stolpci ID_filma, naslov, zvrst, reziser in letnik
+\end_layout
+
+\begin_layout Itemize
+Stolpec ID_filma je tipa INTEGER (celo število), PRIMARY KEY (različna števila)
+ in AUTOINCREMENT (kreira avtomatsko)
+\end_layout
+
+\begin_layout Itemize
+Naslov, zvrst in reziser so tipa VARCHAR (največ toliko znakot kot je dano
+ število v oklepaju).
+ Naslovi se ne smejo ponavljati, zato uporabimo UNIQUE in pa vsi podatki
+ v teh treh stolpcih morajo biti izpolnjeni (NOT NULL)
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Tabela: dvorane
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+V tabeli dvorane bomo hranili podatke o številu sedežev v posamezni dvorani.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE dvorane(
+\end_layout
+
+\begin_layout Plain Layout
+
+ID_dvorana INTEGER PRIMARY KEY AUTOINCREMENT,
+\end_layout
+
+\begin_layout Plain Layout
+
+st_sedezev INTEGER CHECK (st_sedezev BETWEEN 100 AND 1000)
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ustvarimo tabelo dvorane s stolpcema ID_dvorana in st_sedezev
+\end_layout
+
+\begin_layout Itemize
+Stolpec ID_dvorana je tipa INTEGER, PRIMARY KEY in AUTOINCREMENT
+\end_layout
+
+\begin_layout Itemize
+Stolpec st_sedezev je tipa INTEGER in pa mora veljati pogoj, da so števila
+ sedežev med 100 in 150
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Tabela: zaposleni
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+V tabeli zaposleni bomo hranili podatke o zaposlenih, kot sta ime in priimek
+ zaposlenega.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE zaposleni(
+\end_layout
+
+\begin_layout Plain Layout
+
+ID_zaposlenega INTEGER PRIMARY KEY AUTOINCREMENT,
+\end_layout
+
+\begin_layout Plain Layout
+
+ime VARCHAR(20) NOT NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+priimek VARCHAR(30) NOT NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ustvarimo tabelo zaposleni s stolpci ID_zaposlenega, ime in pa priimek
+\end_layout
+
+\begin_layout Itemize
+Stolpec ID_zaposlenega je tipa INTEGER, PRIMARY KEY in AUTOINCREMENT
+\end_layout
+
+\begin_layout Itemize
+Stolpca ime in priimek sta tipa VARCHAR in pa podatka morata biti izpolnjena
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Tabela: vstopnice
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+V tabeli vstopnice bomo hranili podatke o filmih in pa datumih
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE vstopnice(
+\end_layout
+
+\begin_layout Plain Layout
+
+ID_vstopnica INTEGER PRIMARY KEY AUTOINCREMENT,
+\end_layout
+
+\begin_layout Plain Layout
+
+filmi INTEGER,
+\end_layout
+
+\begin_layout Plain Layout
+
+zaposleni INTEGER,
+\end_layout
+
+\begin_layout Plain Layout
+
+datum DATE NOT NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+FOREIGN KEY (filmi) REFERENCES filmi(ID_filma),
+\end_layout
+
+\begin_layout Plain Layout
+
+FOREIGN KEY (zaposleni) REFERENCES zaposleni(ID_zaposlenega)
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ustvarimo tabelo vstopnice s stolpci ID_vstopnica, filmi, zapsleni in datum
+\end_layout
+
+\begin_layout Itemize
+Stolpec ID_vstopnica je tipa INTEGER, PRIMARY KEY in AUTOINCREMENT
+\end_layout
+
+\begin_layout Itemize
+Stolpec filmi je tipa INTEGER in pa ima referenco na tabelo filmi(ID_filma),
+ to pomeni, da bodo v tem stolpcu lahko le podatki, ki bodo v stolpcu ID_filma
+ in pa podatek mora biti izpolnjen
+\end_layout
+
+\begin_layout Itemize
+Stolpec zaposleni je tipa INTEGER in pa ima referenco na tabelo zaposleni(ID_zap
+oslenega), podatek mora biti izpolnjen
+\end_layout
+
+\begin_layout Itemize
+Stolpec datum je tipa DATE in pa podatek mora biti izpolnjen
+\end_layout
+
+\begin_layout Standard
+Podatki v tabeli: Ker je število podatkov zelo veliko, sem si za kreiranje
+ skripte pomagala s Pythonom.
+ Datum sem začela s 01.03.2014 do 10.04.2014, ko sem kreirala tabele.
+ Program se nahaja v datoteki generiraj.py.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Tabela: spored
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+V tabeli spored bomo hranili podatke o številki filma, v kateri dvorani
+ se bo vrtel določen film in pa datum, kdaj bo na sporedu določen film.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE spored(
+\end_layout
+
+\begin_layout Plain Layout
+
+ID_sporeda SERIAL PRIMARY KEY,
+\end_layout
+
+\begin_layout Plain Layout
+
+stevilka_filma INTEGER,
+\end_layout
+
+\begin_layout Plain Layout
+
+dvorana INTEGER,
+\end_layout
+
+\begin_layout Plain Layout
+
+datum DATE,
+\end_layout
+
+\begin_layout Plain Layout
+
+FOREIGN KEY (stevilka_filma) REFERENCES filmi(ID_filma),
+\end_layout
+
+\begin_layout Plain Layout
+
+FOREIGN KEY (dvorana) REFERENCES dvorane(ID_dvorana)
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ustvarimo tabelo spored s stolpci ID_sporeda, stevilka_filma, dvorana in
+ datum
+\end_layout
+
+\begin_layout Itemize
+Stolpec ID_sporeda je tipa SERIAL (celo število) in PRIMARY KEY
+\end_layout
+
+\begin_layout Itemize
+Stolpec stevilka_filma je tipa INTEGER, ima referenco na tabelo filmi(ID_filma)
+ ter mora vsebovati podatek
+\end_layout
+
+\begin_layout Itemize
+Stolpec dvorana je tipa INTEGER, ima referenco na tabelo dvorane(ID_dvorana)
+\end_layout
+
+\begin_layout Itemize
+Stolpec datum je tipa DATE in mora vsebovati podatek
+\end_layout
+
+\begin_layout Standard
+Podatki v tabeli: Ker je število podatkov zelo veliko, sem si za kreiranje
+ skripte pomagala s Pythonom.
+ Program se nahaja v datoteki generiraj.py.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Izjava o avtorstvu
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes eld
+\end_inset
+
+Izjavljam, da sem nalogo opravila samostojno in da sem njena avtorica.
+ Zavedam se, da v primeru, če izjava prvega stavka ni resnična, kršim disciplins
+ka pravila Fakultete za matematiko in fiziko.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,3 @@
+http://stackoverflow.com/questions/10410677/tkinter-tableadding-data-into-new-row-and-specify-index
+
+http://stackoverflow.com/questions/14721183/tktable-insert-rows-python
